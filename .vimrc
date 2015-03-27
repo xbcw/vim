@@ -196,7 +196,7 @@ set viminfo^=%
 " => Status line
 """"""""""""""""""""""""""""""
 " Always show the status line
-set laststatus=2
+set laststatus=1
 
 " Format the status line
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
@@ -207,6 +207,9 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 map 0 ^
+
+" Auto-indent file
+map <C-i> mzgg=G`z<CR>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
