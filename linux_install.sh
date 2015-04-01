@@ -1,8 +1,8 @@
 #!/bin/bash
-cp .vimrc $HOME/.vimrc
-mkdir $HOME/.vim
-cp -r autoload $HOME/.vim
-cp -r bundle $HOME/.vim
+cp .vimrc ~/.vimrc
+cp -rp autoload $HOME/.vim/
+cp -rp bundle $HOME/.vim/
+cp -rp after $HOME/.vim/
 
 # Do a full install
 if [ "$1" == "--full-install" ] || [ "$1" == "-f" ] ; then 

@@ -155,11 +155,20 @@ set tabstop=4
 " Linebreak on 500 characters
 set lbr
 set tw=500
-
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+
+""""""""""""""""""""""""""""""
+" => Brackets 
+""""""""""""""""""""""""""""""
+" Automatically apply closing surrounds
+inoremap ( ()<Esc>i
+inoremap { {}<Esc>i
+inoremap [ []<Esc>i
+inoremap " ""<Esc>i
+inoremap ' ''<Esc>i
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -191,6 +200,9 @@ autocmd BufReadPost *
 " Remember info about open buffers on close
 set viminfo^=%
 
+" Set current directory to file directory
+autocmd BufEnter * silent! lcd %:p:h
+
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -209,7 +221,10 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 map 0 ^
 
 " Auto-indent file
-map <C-i> mzgg=G`z<CR>
+map <C-i> mzgg=G`z<cr>
+
+" run build in current directory
+map <C-b> :Shell build<cr>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -233,6 +248,11 @@ endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
+" Insert // TODO(brad):
+:command -nargs=1 Todo :normal i // TODO(brad): <args><ESC>=$
+
+" Insert // NOTE(brad):
+:command -nargs=1 Note :normal i // NOTE(brad): <args><ESC>=$
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
@@ -245,6 +265,36 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Shell commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Works like !command except it outputs to a new buffer
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  let isfirst = 1
+  let words = []
+  for word in split(a:cmdline)
+    if isfirst
+      let isfirst = 0  " don't change first word (shell command)
+    else
+      if word[0] =~ '\v[%#<]'
+        let word = expand(word)
+      endif
+      let word = shellescape(word, 1)
+    endif
+    call add(words, word)
+  endfor
+  let expanded_cmdline = join(words)
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  call setline(1, 'You entered:  ' . a:cmdline)
+  call setline(2, 'Expanded to:  ' . expanded_cmdline)
+  call append(line('$'), substitute(getline(2), '.', '=', 'g'))
+  silent execute '$read !'. expanded_cmdline
+  1
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -317,3 +367,9 @@ function! <SID>BufcloseCloseIt()
         execute("bdelete! ".l:currentBufNum)
     endif
 endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => YouCompleteMe
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let g:ycm_confirm_extra_conf = 0
