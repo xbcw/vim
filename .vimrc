@@ -203,6 +203,15 @@ set viminfo^=%
 " Set current directory to file directory
 autocmd BufEnter * silent! lcd %:p:h
 
+" save and restore session
+set sessionoptions+=resize,winpos
+if has('gui_win32')
+    autocmd VIMEnter * :source ~\vimfiles\session.vim
+    autocmd VIMLeave * :mksession! ~\vimfiles\session.vim
+else
+    autocmd VIMEnter * :source ~/.vim/session.vim
+    autocmd VIMLeave * :mksession! ~/.vim/session.vim
+endif
 
 """"""""""""""""""""""""""""""
 " => Status line
