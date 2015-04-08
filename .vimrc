@@ -157,8 +157,14 @@ set lbr
 set tw=500
 set ai "Auto indent
 set si "Smart indent
-set wrap "Wrap lines
+set nowrap "Wrap lines
 
+" cinoptions
+set cino+=(0 "indent function parameters correctly
+set cino+=t0 "function types are flush with function
+
+" Auto-indent file
+map <C-i> mzgg=G`z<cr>
 
 """"""""""""""""""""""""""""""
 " => Brackets 
@@ -289,9 +295,6 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 map 0 ^
-
-" Auto-indent file
-map <C-i> mzgg=G`z<cr>
 
 " run build in current directory
 map <C-b> :Shell build<cr>
