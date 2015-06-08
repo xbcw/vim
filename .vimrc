@@ -3,27 +3,13 @@
 "       Brad Williams
 "
 " Version: 
-"       1.0 
+"       1.1 
 "
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
+" Inspired_by: 
+"       https://github.com/amix/vimrc
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -165,6 +151,7 @@ set cino+=t0 "function types are flush with function
 
 " Auto-indent file
 map <C-i> mzgg=G`z<cr>
+
 
 """"""""""""""""""""""""""""""
 " => Brackets 
@@ -327,6 +314,7 @@ autocmd BufWrite *.coffee :call DeleteTrailingWS()
 " Insert // NOTE(brad):
 :command -nargs=1 Note :normal i // NOTE(brad): <args><ESC>=$
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -410,7 +398,7 @@ function! HasPaste()
     return ''
 endfunction
 
-" Don't close window, when deleting a buffer
+" Don't close window when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
     let l:currentBufNum = bufnr("%")
